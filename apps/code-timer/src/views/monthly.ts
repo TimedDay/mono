@@ -1,34 +1,64 @@
 import * as vscode from 'vscode';
-import { TimeTracker } from '../extension';
+import { createThemedWebviewPanel, TimeTracker } from '../extension';
+import { renderRepoChart } from '../helper/renderRepoChart';
+import { renderTopRepos } from '../helper/renderTopRepos';
+import { renderDailyBarChart } from '../helper/renderDailyBarChart';
 
-export const monthlySummaryCommand = vscode.commands.registerCommand('code-time-tracker.showMonthlySummary', () => {
-    const timeTracker = new TimeTracker();
-    const summary = timeTracker.generateMonthlySummary();
-    
-    const panel = vscode.window.createWebviewPanel(
-      'codeTimeTracker',
-      'Monthly Code Time Summary',
-      vscode.ViewColumn.One,
-      {}
-    );
-    
-    // Ähnlicher Inhalt wie für die Wochenzusammenfassung, aber mit Monatsüberschrift
-    let content = `
-      <html>
-      <head>
-        <style>
-          body { font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; padding: 20px; }
-          .summary-container { max-width: 800px; margin: 0 auto; }
-          .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
-          .stats-card { background: #f5f5f5; border-radius: 8px; padding: 15px; }
-          .repo-bar { margin: 10px 0; background: #e0e0e0; border-radius: 4px; }
-          .repo-bar-fill { background: #007acc; height: 20px; border-radius: 4px; }
-          .chart-container { height: 200px; margin: 20px 0; position: relative; }
-          .chart-bar { position: absolute; bottom: 0; width: 12px; background: #007acc; border-radius: 4px 4px 0 0; }
-          .chart-label { position: absolute; bottom: -25px; text-align: center; transform: translateX(-50%); font-size: 12px; }
-        </style>
-      </head>
-      <body>
+export const monthlySummaryCommand = (timeTracker: TimeTracker, context: vscode.ExtensionContext) => vscode.commands.registerCommand('code-time-tracker.showMonthlySummary', () => {
+  const summary = timeTracker.generateMonthlySummary();
+
+  const panel = createThemedWebviewPanel(
+    'codeTimeTracker',
+    'Monthly Code Time Summary',
+    vscode.ViewColumn.One,
+    context.extensionUri
+  );
+
+
+  const generateHtml = () => {
+    return `
+    <div class="summary-container">
+          <h1>Weekly Code Time Summary</h1>
+          <h2>Period: ${summary.period}</h2>
+          
+          <div class="stats-grid">
+            <div class="stats-card">
+              <h3>Total Coding Time</h3>
+              <p class="stat-value">${summary.totalTime}</p>
+            </div>
+            <div class="stats-card">
+              <h3>Average Daily Time</h3>
+              <p class="stat-value">${summary.averageDailyTime}</p>
+            </div>
+          </div>
+          
+          <h3>Zeit nach Repository</h3>
+          ${renderRepoChart(summary.repos)}
+
+          <h3>Tägliche Aktivität</h3>
+      <div class="chart-container">
+        ${renderDailyBarChart(summary.dailyBreakdown)}
+      </div>
+
+          <h3>Produktivster Tag</h3>
+          <div class="stats-card">
+            ${summary.mostProductiveDay ?
+        `<p class="day-name">${summary.mostProductiveDay.dayName}</p>
+              <p class="day-date">${summary.mostProductiveDay.date}</p>
+              <p class="stat-value">${summary.mostProductiveDay.time}</p>` :
+        '<p>Keine Daten verfügbar</p>'}
+          </div>
+          
+          <h3>Top-3 Repositories des Monats</h3>
+          <div class="daily-grid" style="grid-template-columns: repeat(3, 1fr);">
+            ${renderTopRepos(summary.repos.slice(0, 3))}
+          </div>
+        </div>
+    `
+  }
+  // Ähnlicher Inhalt wie für die Wochenzusammenfassung, aber mit Monatsüberschrift
+  let content = `
+      
         <div class="summary-container">
           <h1>Monthly Code Time Summary</h1>
           <h2>Period: ${summary.period}</h2>
@@ -46,13 +76,13 @@ export const monthlySummaryCommand = vscode.commands.registerCommand('code-time-
           
           <h3>Time by Repository</h3>
     `;
-    
-    // Berechnen des maximalen Werts für die Balkendiagramme
-    const maxSeconds = summary.repos.length > 0 ? summary.repos[0].seconds : 0;
-    
-    for (const repo of summary.repos) {
-      const percentage = maxSeconds > 0 ? (repo.seconds / maxSeconds * 100) : 0;
-      content += `
+
+  // Berechnen des maximalen Werts für die Balkendiagramme
+  const maxSeconds = summary.repos.length > 0 ? summary.repos[0].seconds : 0;
+
+  for (const repo of summary.repos) {
+    const percentage = maxSeconds > 0 ? (repo.seconds / maxSeconds * 100) : 0;
+    content += `
         <div>
           <p><strong>${repo.name}</strong>: ${repo.time}</p>
           <div class="repo-bar">
@@ -60,29 +90,29 @@ export const monthlySummaryCommand = vscode.commands.registerCommand('code-time-
           </div>
         </div>
       `;
-    }
-    
-    // Balkendiagramm für tägliche Zeiten
-    content += `
+  }
+
+  // Balkendiagramm für tägliche Zeiten
+  content += `
           <h3>Daily Activity</h3>
           <div class="chart-container">
     `;
-    
-    // Maximaler Wert für das Balkendiagramm
-    const maxDailySeconds = Math.max(...summary.dailyBreakdown.map(day => day.seconds));
-    
-    // Balken für jeden Tag
-    summary.dailyBreakdown.forEach((day, index) => {
-      const height = maxDailySeconds > 0 ? (day.seconds / maxDailySeconds * 100) : 0;
-      const leftPosition = (index / summary.dailyBreakdown.length * 100);
-      
-      content += `
+
+  // Maximaler Wert für das Balkendiagramm
+  const maxDailySeconds = Math.max(...summary.dailyBreakdown.map(day => day.seconds));
+
+  // Balken für jeden Tag
+  summary.dailyBreakdown.forEach((day, index) => {
+    const height = maxDailySeconds > 0 ? (day.seconds / maxDailySeconds * 100) : 0;
+    const leftPosition = (index / summary.dailyBreakdown.length * 100);
+
+    content += `
         <div class="chart-bar" style="left: ${leftPosition}%; height: ${height}%; "></div>
         <div class="chart-label" style="left: ${leftPosition}%;">${day.date.split('-')[2]}</div>
       `;
-    });
-    
-    content += `
+  });
+
+  content += `
           </div>
           
           <h3>Most Productive Day</h3>
@@ -91,6 +121,20 @@ export const monthlySummaryCommand = vscode.commands.registerCommand('code-time-
       </body>
       </html>
     `;
-    
-    panel.webview.html = content;
+
+  // Sende den Inhalt ans Webview
+  panel.webview.postMessage({
+    command: 'updateContent',
+    html: generateHtml()
   });
+
+  // Reagiere auf Theme-Änderungen (optional)
+  panel.webview.onDidReceiveMessage(message => {
+    if (message.command === 'requestData') {
+      panel.webview.postMessage({
+        command: 'updateContent',
+        html: generateHtml()
+      });
+    }
+  });
+});

@@ -1,0 +1,171 @@
+.code-time-tracker {
+    line-height: 1.5;
+}
+
+.code-time-tracker h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--vscode-editor-foreground);
+}
+
+.code-time-tracker h2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 0.8rem;
+    color: var(--vscode-editor-foreground);
+}
+
+.code-time-tracker h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 1.5rem 0 0.6rem 0;
+    color: var(--vscode-editor-foreground);
+}
+
+.summary-container {
+    max-width: 800px;
+    margin: 1rem auto;
+    padding: 1rem;
+}
+
+/* Stats Cards */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.stats-card {
+    background-color: var(--vscode-editor-inactiveSelectionBackground);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stats-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: var(--vscode-editor-foreground);
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--vscode-editor-foreground);
+}
+
+/* Repository Bars */
+.repo-item {
+    margin: 0.8rem 0;
+}
+
+.repo-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.3rem;
+}
+
+.repo-name {
+    font-weight: 500;
+    color: var(--vscode-editor-foreground);
+}
+
+.repo-time {
+    color: var(--vscode-descriptionForeground);
+}
+
+.repo-bar {
+    background-color: var(--vscode-input-background);
+    border-radius: 4px;
+    height: 0.8rem;
+    overflow: hidden;
+}
+
+.repo-bar-fill {
+    background-color: var(--vscode-progressBar-background);
+    height: 100%;
+    border-radius: 4px;
+}
+
+/* Daily Cards */
+.daily-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.8rem;
+    margin: 1rem 0;
+}
+
+.day-card {
+    background-color: var(--vscode-editor-inactiveSelectionBackground);
+    border-radius: 8px;
+    padding: 0.7rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.day-most-productive {
+    background-color: var(--vscode-debugConsole-infoForeground, #3794ff);
+    color: var(--vscode-button-foreground, #ffffff);
+}
+
+.day-name {
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+
+.day-date {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+}
+
+.day-time {
+    font-weight: 500;
+}
+
+/* Loading state */
+.loading {
+    text-align: center;
+    margin: 2rem 0;
+    color: var(--vscode-descriptionForeground);
+}
+
+/* Charts */
+.chart-container {
+    height: 200px;
+    margin: 1.5rem 0;
+    position: relative;
+    background-color: var(--vscode-editor-inactiveSelectionBackground);
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.chart-bar {
+    position: absolute;
+    bottom: 20px;
+    width: 12px;
+    background-color: var(--vscode-progressBar-background);
+    border-radius: 4px 4px 0 0;
+}
+
+.chart-label {
+    position: absolute;
+    bottom: -10px;
+    text-align: center;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    color: var(--vscode-descriptionForeground);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .daily-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+}
