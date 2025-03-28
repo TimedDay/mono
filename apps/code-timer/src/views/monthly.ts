@@ -1,8 +1,9 @@
 import * as vscode from 'vscode';
-import { createThemedWebviewPanel, TimeTracker } from '../extension';
+import { TimeTracker } from '../extension';
 import { renderRepoChart } from '../helper/renderRepoChart';
 import { renderTopRepos } from '../helper/renderTopRepos';
 import { renderDailyBarChart } from '../helper/renderDailyBarChart';
+import { createThemedWebviewPanel } from '../helper/createThemedWebviewPanel';
 
 export const monthlySummaryCommand = (timeTracker: TimeTracker, context: vscode.ExtensionContext) => vscode.commands.registerCommand('code-time-tracker.showMonthlySummary', () => {
   const summary = timeTracker.generateMonthlySummary();
