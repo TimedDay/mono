@@ -2,7 +2,7 @@
 
 Track your coding time across different repositories and branches directly within VS Code. Understand where you spend your time and optimize your workflow.
 
-![Code Time Tracker Screenshot](images/screenshot.png)
+![Code Time Tracker Screenshot](https://raw.githubusercontent.com/TimedDay/mono/refs/heads/main/apps/code-timer/images/screenshot.png)
 
 ## Features
 
@@ -52,6 +52,12 @@ All tracking data is stored locally on your machine. This extension does not sen
 - [GitHub Repository](https://github.com/TimedDay/mono)
 
 ## Release Notes
+
+### 0.1.2
+- fix README.md screenshot
+
+### 0.1.1
+- Add marketplace icon
 
 ### 0.1.0
 
