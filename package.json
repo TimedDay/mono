@@ -3,7 +3,13 @@
   "private": true,
   "scripts": {
     "watch:code-timer": "bun run --cwd apps/code-timer watch",
-    "build:code-timer": "bun run --cwd apps/code-timer compile"
+    "build:code-timer": "bun run --cwd apps/code-timer compile",
+    "dev:website": "bun run --cwd apps/website dev",
+    "build:website": "bun run --cwd apps/website build",
+    "build": "bun build:website",
+    "docker:website:build": "docker build -t git.hashdot.co/timed/mono/website:latest -f ci/docker/website/Dockerfile .",
+    "docker:website:push": "docker push git.hashdot.co/timed/mono/website:latest",
+    "docker:website": "bun docker:website:build && bun docker:website:push"
   },
   "workspaces": [
     "packages/*",
