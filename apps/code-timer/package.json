@@ -1,0 +1,85 @@
+{
+  "name": "code-timer",
+  "displayName": "Code Timer",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.98.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "code-time-tracker",
+          "title": "Code Time Tracker",
+          "icon": "resources/clock.svg"
+        }
+      ]
+    },
+    "views": {
+      "code-time-tracker": [
+        {
+          "id": "codeTimeReports",
+          "name": "Reports"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "code-time-tracker.toggleTracking",
+        "title": "Toggle Time Tracking"
+      },
+      {
+        "command": "code-time-tracker.showDailySummary",
+        "title": "Show Daily Time Summary"
+      },
+      {
+        "command": "code-time-tracker.showWeeklySummary",
+        "title": "Show Weekly Time Summary"
+      },
+      {
+        "command": "code-time-tracker.showMonthlySummary",
+        "title": "Show Monthly Time Summary"
+      }
+    ], 
+    "configuration": {
+      "title": "Code Time Tracker",
+      "properties": {
+        "codeTimeTracker.autoStart": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically start tracking when VS Code starts"
+        },
+        "codeTimeTracker.inactivityThreshold": {
+          "type": "number",
+          "default": 300,
+          "description": "Seconds of inactivity before tracking pauses"
+        }
+      }
+    }
+  }, 
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.98.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.28.0",
+    "@typescript-eslint/parser": "^8.28.0",
+    "eslint": "^9.23.0",
+    "typescript": "^5.8.2",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
+}
