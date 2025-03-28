@@ -1,22 +1,47 @@
 {
-  "name": "code-timer",
-  "displayName": "Code Timer",
-  "description": "",
-  "version": "0.0.1",
+  "name": "timedday-code-timer",
+  "displayName": "timed.day - Code Timer",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.98.0"
   },
+  "publisher": "timedday",
   "categories": [
     "Other"
   ],
+  "description": "Automatically track your coding time across repositories and branches. Get detailed insights with daily, weekly, and monthly reports to optimize your workflow and boost productivity.",
+  "keywords": [
+    "time-tracking",
+    "productivity",
+    "coding-metrics",
+    "git-integration",
+    "project-management",
+    "statistics",
+    "dashboard",
+    "activity-monitor",
+    "time-management",
+    "developer-tools"
+  ],
   "activationEvents": [],
-  "main": "../../build/code-timer/extension.js",
+  "main": "./build/extension.js",
+  "files": [
+    "build/**",
+    "media/**",
+    "resources/**",
+    "images/**",
+    "LICENSE",
+    "README.md",
+    "package.json"
+  ],
+  "repository": {
+    "url": "https://github.com/TimedDay/mono"
+  },
   "contributes": {
     "viewsContainers": {
       "activitybar": [
         {
           "id": "code-time-tracker",
-          "title": "Code Time Tracker",
+          "title": "timed.day - Code Time Tracker",
           "icon": "resources/clock.svg"
         }
       ]
@@ -69,7 +94,9 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "package": "node package-extension.js --package-only",
+    "publish": "node package-extension.js --publish"
   },
   "devDependencies": {
     "@types/vscode": "^1.98.0",

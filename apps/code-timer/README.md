@@ -31,8 +31,6 @@ There are several ways to access your time reports:
 
 ### Understanding Reports
 
-![Weekly Report](images/weekly-report.png)
-
 - **Daily Reports**: Show today's coding activity across all repositories
 - **Weekly Reports**: Display patterns throughout the week, highlighting your most productive days
 - **Monthly Reports**: Provide a broader view of your coding habits and project focus
@@ -50,8 +48,8 @@ All tracking data is stored locally on your machine. This extension does not sen
 
 ## Feedback and Contributions
 
-- File bugs, feature requests in [our issue tracker](https://github.com/dein-username/code-time-tracker/issues)
-- [GitHub Repository](https://github.com/dein-username/code-time-tracker)
+- File bugs, feature requests in [our issue tracker](https://github.com/TimedDay/mono/issues)
+- [GitHub Repository](https://github.com/TimedDay/mono)
 
 ## Release Notes
 
