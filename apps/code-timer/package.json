@@ -10,7 +10,7 @@
     "Other"
   ],
   "activationEvents": [],
-  "main": "./out/extension.js",
+  "main": "../../build/code-timer/extension.js",
   "contributes": {
     "viewsContainers": {
       "activitybar": [
@@ -46,7 +46,7 @@
         "command": "code-time-tracker.showMonthlySummary",
         "title": "Show Monthly Time Summary"
       }
-    ], 
+    ],
     "configuration": {
       "title": "Code Time Tracker",
       "properties": {
@@ -62,7 +62,7 @@
         }
       }
     }
-  }, 
+  },
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
